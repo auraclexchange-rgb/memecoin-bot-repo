@@ -826,7 +826,13 @@ async def btn(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
                 tc += cv
                 direction = "+" if ppnl >= 0 else "-"
                 targets = [t for t in h.get("auto_sells", []) if not t["triggered"]]
-                t_info = f"  [AS: {', '.join([f'{t["pct"]*100:.0f}%@{t[\"x\"]}x' for t in targets])}]" if targets else ""
+                if targets:
+    parts = []
+    for t in targets:
+        parts.append(f"{t['pct']*100:.0f}%@{t['x']}x")
+    t_info = "  [AS: " + ", ".join(parts) + "]"
+else:
+    t_info = ""
                 sl = h.get("stop_loss_pct")
                 sl_info = f"  [SL: {sl}%]" if sl else ""
                 lines.append(

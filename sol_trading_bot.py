@@ -1865,25 +1865,37 @@ def main():
     logger.info("AURACLE_XBOT running...")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
-        best = max(pairs, key=lambda p: float(p.get("liquidity", {}).get("usd", 0) or 0))
+        def fetch_best_pair(pairs: list[dict]) -> dict | None:
+    """Return highest liquidity pair from DexScreener response."""
+    try:
+        if not pairs:
+            return None
+
+        best = max(
+            pairs,
+            key=lambda p: float(p.get("liquidity", {}).get("usd", 0) or 0),
+        )
+
         price = float(best.get("priceUsd") or 0)
         if not price:
             return None
-            
+
         mc = float(best.get("marketCap") or best.get("fdv") or 0)
         liq = float(best.get("liquidity", {}).get("usd", 0) or 0)
         liq_pct = (liq / mc * 100) if mc > 0 else 0
+
         return {
-            "symbol":   best.get("baseToken", {}).get("symbol", "???"),
-            "name":     best.get("baseToken", {}).get("name", "Unknown"),
-            "price":    price,
-            "change":   best.get("priceChange", {}).get("h24", 0),
-            "volume":   float(best.get("volume", {}).get("h24", 0) or 0),
-            "liq":      liq,
-            "liq_pct":  round(liq_pct, 2),
-            "mc":       mc,
-            "dex":      best.get("dexId", "unknown"),
+            "symbol": best.get("baseToken", {}).get("symbol", "???"),
+            "name": best.get("baseToken", {}).get("name", "Unknown"),
+            "price": price,
+            "change": best.get("priceChange", {}).get("h24", 0),
+            "volume": float(best.get("volume", {}).get("h24", 0) or 0),
+            "liq": liq,
+            "liq_pct": round(liq_pct, 2),
+            "mc": mc,
+            "dex": best.get("dexId", "unknown"),
         }
+
     except Exception as e:
         logger.error(f"DexScreener: {e}")
         return None

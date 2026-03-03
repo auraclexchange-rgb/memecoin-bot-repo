@@ -1868,11 +1868,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-            return None
-        best = max(pairs, key=lambda p: float(p.get("liquidity", {}).get("usd", 0) or 0))
-        price = float(best.get("priceUsd") or 0)
-        if not price:
-            return None
+            
         mc = float(best.get("marketCap") or best.get("fdv") or 0)
         liq = float(best.get("liquidity", {}).get("usd", 0) or 0)
         liq_pct = (liq / mc * 100) if mc > 0 else 0

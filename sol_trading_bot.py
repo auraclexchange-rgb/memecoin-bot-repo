@@ -1866,7 +1866,8 @@ def main():
     app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
-
+if __name__ == "__main__":
+    main()
             return None
         best = max(pairs, key=lambda p: float(p.get("liquidity", {}).get("usd", 0) or 0))
         price = float(best.get("priceUsd") or 0)

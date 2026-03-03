@@ -1864,10 +1864,6 @@ def main():
     app.job_queue.run_daily(daily_summary_job, time=__import__("datetime").time(23, 59))
     logger.info("AURACLE_XBOT running...")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
-return None
-
-if __name__ == "__main__":
-    main()
 
         best = max(pairs, key=lambda p: float(p.get("liquidity", {}).get("usd", 0) or 0))
         price = float(best.get("priceUsd") or 0)

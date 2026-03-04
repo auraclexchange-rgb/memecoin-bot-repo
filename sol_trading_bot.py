@@ -1853,18 +1853,6 @@ async def btn(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
             reply_markup=cancel_kb()
         )
 
-
-def main():
-    app = Application.builder().token(BOT_TOKEN).build()
-    app.add_handler(CommandHandler("start", cmd_start))
-    app.add_handler(CommandHandler("menu", cmd_start))
-    app.add_handler(CallbackQueryHandler(btn))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_handler))
-    app.job_queue.run_repeating(checker_job, interval=PRICE_CHECK_INTERVAL, first=10)
-    app.job_queue.run_daily(daily_summary_job, time=__import__("datetime").time(23, 59))
-    logger.info("AURACLE_XBOT running...")
-    app.run_polling(allowed_updates=Update.ALL_TYPES)
-
         def fetch_best_pair(pairs: list[dict]) -> dict | None:
     """Return highest liquidity pair from DexScreener response."""
     try:

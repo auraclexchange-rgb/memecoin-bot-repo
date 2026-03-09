@@ -34,7 +34,7 @@ PRICE_CHECK_INTERVAL      = 20   # standard holdings checker
 APEX_PRICE_CHECK_INTERVAL = 8    # APEX positions — faster, uses Helius when available
 MAX_BALANCE = 10_000.0
 MIN_BALANCE = 1.0
-SNIPER_SEEN_EXPIRY_H = 0.5    # forget seen tokens after 30 MIN so advisory keeps firing
+SNIPER_SEEN_EXPIRY_H = 0.08    # forget seen tokens after 30 MIN so advisory keeps firing
 
 # ── RugCheck rate limiter — max 3 concurrent calls to avoid 429s ─────────────
 _rugcheck_semaphore = None
